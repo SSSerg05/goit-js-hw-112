@@ -1,19 +1,9 @@
-// import
-// import SimpleLightbox from "simplelightbox";
-// import "simplelightbox/dist/simple-lightbox.min.css";
-// import Notiflix from 'notiflix';
-
 import Gallery from './Gallery.js';
-// import Buttons from './Buttons.js';
-// import simpleLightbox from "simplelightbox";
 
 // elements in html
 const refs = {
   out: document.querySelector(".gallery"),
 }
-
-// Класс + ключ
-//const MovieDB = require('moviedb')('347a4b587b74ee2a22d09434547acda6');
 
 const movies = new Gallery();
 onMarkup();
@@ -86,6 +76,8 @@ function updateGallery(data) {
   refs.out.insertAdjacentHTML("beforeend", data);
 }
 
+// Класс + ключ
+const MovieDB = require('moviedb')('347a4b587b74ee2a22d09434547acda6');
 
 //'https://api.themoviedb.org/3/search/movie?
 //  query = Alien 
@@ -95,67 +87,80 @@ function updateGallery(data) {
 //  & region=France 
 //  & year=2022'
 // Пошук списку фільмів по назві
-// MovieDB.searchMovie({ query: 'Zoolander', page: 1 }, (err, res) => {
-//   console.log('query: Zoolander');
-//   console.log(res);
-// });
+MovieDB.searchMovie({ query: 'Zoolander', page: 3 }, (err, res) => {
+  console.log('query: Zoolander');
+  console.log(res);
+  console.log('---------------');
+});
 
-// MovieDB.searchMovie({ query: 'Alien' }, (err, res) => {
-//   console.log('query: Alien');
-//   console.log(res);
-// });
+MovieDB.searchMovie({ query: 'Alien' }, (err, res) => {
+  console.log('query: Alien');
+  console.log(res);
+  console.log('---------------');
+});
 
 // // Нові очікувані фільми
-// MovieDB.miscUpcomingMovies({page: 2}, (err, res) => {
-//   console.log('UpcomingMovie');
-//   console.log(res);
-// });
+MovieDB.miscUpcomingMovies({page: 2}, (err, res) => {
+  console.log('UpcomingMovie');
+  console.log(res);
+  console.log('---------------');
+});
 
-// MovieDB.miscLatestMovies({}, (err, res) => {
-//   console.log('LatesMovie');
-//   console.log(res);
-// });
+// Останні фільми
+MovieDB.miscLatestMovies({}, (err, res) => {
+  console.log('LatesMovie');
+  console.log(res);
+  сonsole.log('---------------');
+});
 
 // // список жанрів
-// MovieDB.genreMovieList({}, (err, res) => {
-//   console.log('Genre');
-//   console.log(res);
-// })
+MovieDB.genreMovieList({}, (err, res) => {
+  console.log('Genre');
+  console.log(res);
+    console.log('---------------');
+})
 
 // // Фільми по конкретному жанру
-// MovieDB.genreMovies({ id: 14, page: 5 }, (err, res) => {
-//     console.log(`Movies for Genry.id:14`);  
-//     console.log(res);
-// });
+MovieDB.genreMovies({ id: 14, page: 5 }, (err, res) => {
+  console.log(`Movies for Genry.id:14`);  
+  console.log(res);
+  console.log('---------------');
+});
 
 
 // //https://api.themoviedb.org/3/configuration/countries
-// MovieDB.configurationCountries({ }, (err, res) => {
-//     console.log(`Countries`);  
-//     console.log(res);
-// });
+// Країни
+MovieDB.configurationCountries({ }, (err, res) => {
+  console.log(`Countries`);  
+  console.log(res);
+  console.log('---------------');
+});
 
 
 // // інформація по фільму за id
-// MovieDB.movieInfo({ id: 840326 }, (err, res) => {
-//   console.log(res.title, res.id);
-//   console.log(res);
-// });
+MovieDB.movieInfo({ id: 840326 }, (err, res) => {
+  console.log(res.title, res.id);
+  console.log(res);
+  console.log('---------------');
+});
 
 // // Трендові фільми: id = 'day' / 'week'
-// MovieDB.trendingMovie({ id: 'day' }, (err, res) => {
-//   console.log("trendingMovie");
-//   console.log(res);
-// });
+MovieDB.trendingMovie({ id: 'day' }, (err, res) => {
+  console.log("trendingMovie");
+  console.log(res);
+  console.log('---------------');
+});
 
-
-// MovieDB
-//   .searchMovie({ query: 'Zoolander' }, (err, res) => {
-//     console.log(res);
-//   })
-//   .movieInfo({ id: 123 }, (err, res) => {
-//     console.log(res);
-//   });
+// Составний запит
+MovieDB
+  .searchMovie({ query: 'Zoolander' }, (err, res) => {
+    console.log('Составний запит');
+    console.log(res);
+  })
+  .movieInfo({ id: 123 }, (err, res) => {
+    console.log(res);
+    console.log('---------------');
+  });
 
 // setting french as default language...
 //tmdb.setLanguage('uk');
