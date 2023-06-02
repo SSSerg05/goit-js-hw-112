@@ -13,26 +13,31 @@ const MovieDB = require('moviedb')('347a4b587b74ee2a22d09434547acda6');
 // MovieDB.searchMovie({ query: 'Alien' }, (err, res) => {
 //   console.log(res);
 // });
-
+  
 MovieDB.miscUpcomingMovies({}, (err, res) => {
-  console.log(res);
-});
-
-MovieDB.searchCollection({id: 14}, (err, res) => {
+  console.log('UpcomingMovie');
   console.log(res);
 });
 
 MovieDB.miscLatestMovies({}, (err, res) => {
+  console.log('LatesMovie');
   console.log(res);
 });
 
-MovieDB.genreMovieList({},(err, res) => {
+MovieDB.genreMovieList({}, (err, res) => {
+  console.log('Genre');
   console.log(res);
+})
+
+MovieDB.genreMovies({ id: 14 }, (err, res) => {
+    console.log(`Movies for Genry.id:14`);  
+    console.log(res);
 });
 
-// MovieDB.movieInfo({ id: 666}, (err, res) => {
-//   console.log(res);
-// });
+MovieDB.movieInfo({ id: 840326 }, (err, res) => {
+  console.log(res.title, res.id);
+  console.log(res);
+});
 
 // MovieDB
 //   .searchMovie({ query: 'Zoolander' }, (err, res) => {
@@ -57,236 +62,236 @@ MovieDB.genreMovieList({},(err, res) => {
 // let outGallery = '';
 
 // elements in html
-const refs = {
-  form: document.querySelector(".search-form"),
-  out: document.querySelector(".gallery"),
-  count: document.querySelector(".count"),
-}
+// const refs = {
+//   form: document.querySelector(".search-form"),
+//   out: document.querySelector(".gallery"),
+//   count: document.querySelector(".count"),
+// }
 
-const newGallery = new Gallery();
-const loadMoreBtn = new Buttons({
-  selector: ".btn-load-more",
-  name: "Load More",
-  nameDisable: "Loading...",
-  isHidden: true,
-});
+// const newGallery = new Gallery();
+// const loadMoreBtn = new Buttons({
+//   selector: ".btn-load-more",
+//   name: "Load More",
+//   nameDisable: "Loading...",
+//   isHidden: true,
+// });
 
-const searchBtn = new Buttons({
-  selector: ".btn-search",
-  name: "Search",
-  nameDisable: "Search",
-  isHidden: false,
-})
+// const searchBtn = new Buttons({
+//   selector: ".btn-search",
+//   name: "Search",
+//   nameDisable: "Search",
+//   isHidden: false,
+// })
 
-// events
-refs.form.addEventListener("submit", onFormSubmit);
-refs.form.addEventListener("input", onFormInput);
+// // events
+// refs.form.addEventListener("submit", onFormSubmit);
+// refs.form.addEventListener("input", onFormInput);
 
-loadMoreBtn.button.addEventListener('click', onViewNext);
+// loadMoreBtn.button.addEventListener('click', onViewNext);
 
-// add slider with modal window
-const lightbox = new SimpleLightbox(".gallery a", { /* options */ });
-lightbox.on('show.simplelightbox', function () {
-  // Do something…
-  lightbox.captionDelay = 250;
-});
+// // add slider with modal window
+// const lightbox = new SimpleLightbox(".gallery a", { /* options */ });
+// lightbox.on('show.simplelightbox', function () {
+//   // Do something…
+//   lightbox.captionDelay = 250;
+// });
 
 
-// if change input - dont show button
-//
-function onFormInput(event) {
-  const value = refs.form.elements.searchQuery.value.trim();
+// // if change input - dont show button
+// //
+// function onFormInput(event) {
+//   const value = refs.form.elements.searchQuery.value.trim();
   
-  if (value === "") {
-    throw new Error("No value in input");
-    return
-  }
+//   if (value === "") {
+//     throw new Error("No value in input");
+//     return
+//   }
 
-  searchBtn.enable();
-  loadMoreBtn.hide();
+//   searchBtn.enable();
+//   loadMoreBtn.hide();
 
-  newGallery.searchQuery = value;
+//   newGallery.searchQuery = value;
 
-  clearGallery()
-}
+//   clearGallery()
+// }
 
 
-// user_id:36214966 
-// key 36214966-0d101d8d6f502ad642532aad3
-// username u_ht1qf13txz
-//
-// show gallery
-function onFormSubmit(event) { 
-  const value = newGallery.searchQuery;
+// // user_id:36214966 
+// // key 36214966-0d101d8d6f502ad642532aad3
+// // username u_ht1qf13txz
+// //
+// // show gallery
+// function onFormSubmit(event) { 
+//   const value = newGallery.searchQuery;
   
-  searchBtn.disable();
+//   searchBtn.disable();
 
-  event.preventDefault();
+//   event.preventDefault();
 
-  if (value === '') {
-    throw new Error("No value in input");
-    return
-  }
+//   if (value === '') {
+//     throw new Error("No value in input");
+//     return
+//   }
 
-  if (newGallery.page >= 1) {
-    loadMoreBtn.show();
-  }
+//   if (newGallery.page >= 1) {
+//     loadMoreBtn.show();
+//   }
 
-  onViewNext()
-}
+//   onViewNext()
+// }
 
-// getCardPictures
-//
-async function getNewPictures() {
-  try {
-    const cards = await newGallery.getPictures();
-    const { total, perPage, page } = newGallery;
+// // getCardPictures
+// //
+// async function getNewPictures() {
+//   try {
+//     const cards = await newGallery.getPictures();
+//     const { total, perPage, page } = newGallery;
 
-    if (!cards) {
-      loadMoreBtn.disable();
-      loadMoreBtn.hide();
-      return "";
-    }
+//     if (!cards) {
+//       loadMoreBtn.disable();
+//       loadMoreBtn.hide();
+//       return "";
+//     }
 
-    if (cards.length === 0) {
-      throw new Error("No data");
-      return;
-    }
+//     if (cards.length === 0) {
+//       throw new Error("No data");
+//       return;
+//     }
 
-    if (page - 1 === 1) {
-      Notiflix.Notify.success(`Hooray! We found ${total} images.`);
-    }
+//     if (page - 1 === 1) {
+//       Notiflix.Notify.success(`Hooray! We found ${total} images.`);
+//     }
 
-    if (total < perPage || total < (page - 1) * perPage) {
-      loadMoreBtn.hide();
-      loadMoreBtn.disable();
-      Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
-    }
+//     if (total < perPage || total < (page - 1) * perPage) {
+//       loadMoreBtn.hide();
+//       loadMoreBtn.disable();
+//       Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
+//     }
 
-    return cards.reduce(
-         (acc, data) => acc + createGallery(data), "");
+//     return cards.reduce(
+//          (acc, data) => acc + createGallery(data), "");
 
-  } catch (error) {
-    loadMoreBtn.hide();
-    loadMoreBtn.disable();
-    onError(error);
-  }
+//   } catch (error) {
+//     loadMoreBtn.hide();
+//     loadMoreBtn.disable();
+//     onError(error);
+//   }
 
-}
+// }
 
-// block for one image-card
-//
-function createGallery(data) {
+// // block for one image-card
+// //
+// function createGallery(data) {
 
-  if (!data) { 
-    return
-  }
+//   if (!data) { 
+//     return
+//   }
 
-  const {
-    webformatURL: smallImg,
-    largeImageURL: fullImg,
-    tags: alt,
-    likes,
-    views,
-    comments,
-    downloads } = data;
+//   const {
+//     webformatURL: smallImg,
+//     largeImageURL: fullImg,
+//     tags: alt,
+//     likes,
+//     views,
+//     comments,
+//     downloads } = data;
   
-  return `
-  <a href="${fullImg}">
-    <div class="photo-card">
-      <img class="image"
-        src="${smallImg}" 
-        alt="{${alt}}" 
-        loading="lazy"
-        title="{${alt}}"/>
+//   return `
+//   <a href="${fullImg}">
+//     <div class="photo-card">
+//       <img class="image"
+//         src="${smallImg}" 
+//         alt="{${alt}}" 
+//         loading="lazy"
+//         title="{${alt}}"/>
 
-      <div class="info">
-        <p class="info-item">
-         <b>Likes: </b>${likes}
-        </p>
-        <p class="info-item">
-          <b>Views: </b>${views}
-        </p>
-        <p class="info-item">
-          <b>Comments: </b>${comments}
-        </p>
-        <p class="info-item">
-          <b>Downloads: </b>${downloads}
-        </p>
-      </div>
-    </div>
-  </a>`
-}
+//       <div class="info">
+//         <p class="info-item">
+//          <b>Likes: </b>${likes}
+//         </p>
+//         <p class="info-item">
+//           <b>Views: </b>${views}
+//         </p>
+//         <p class="info-item">
+//           <b>Comments: </b>${comments}
+//         </p>
+//         <p class="info-item">
+//           <b>Downloads: </b>${downloads}
+//         </p>
+//       </div>
+//     </div>
+//   </a>`
+// }
 
-// update out
-//
-function updateGallery(data) {
-  if (!data) { 
-    return
-  }
+// // update out
+// //
+// function updateGallery(data) {
+//   if (!data) { 
+//     return
+//   }
     
-  refs.out.insertAdjacentHTML("beforeend", data);
-  lightbox.refresh();
-}
+//   refs.out.insertAdjacentHTML("beforeend", data);
+//   lightbox.refresh();
+// }
 
-// update out count page
-//
-function updateTotal() {
+// // update out count page
+// //
+// function updateTotal() {
 
-  if (newGallery.total === 0) {
-    refs.count.innerHTML = "";
-  } else {
-    refs.count.innerHTML = viewCountImages();
-  }
-}
+//   if (newGallery.total === 0) {
+//     refs.count.innerHTML = "";
+//   } else {
+//     refs.count.innerHTML = viewCountImages();
+//   }
+// }
 
-// clear out
-//
-function clearGallery() { 
+// // clear out
+// //
+// function clearGallery() { 
 
-  newGallery.resetPage();
+//   newGallery.resetPage();
 
-  refs.out.innerHTML = "";
-  refs.count.innerHTML = "";
-}
-
-
-function onError(error) { 
-
-  loadMoreBtn.disable();
-  loadMoreBtn.hide();
-  Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.");
-  console.log(error);
-}
+//   refs.out.innerHTML = "";
+//   refs.count.innerHTML = "";
+// }
 
 
-// View Next card gallery
-//
-async function onViewNext() { 
+// function onError(error) { 
 
-  loadMoreBtn.disable();
+//   loadMoreBtn.disable();
+//   loadMoreBtn.hide();
+//   Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.");
+//   console.log(error);
+// }
+
+
+// // View Next card gallery
+// //
+// async function onViewNext() { 
+
+//   loadMoreBtn.disable();
   
-  try {
-    const markup = await getNewPictures();
+//   try {
+//     const markup = await getNewPictures();
       
-    loadMoreBtn.enable()
-    updateGallery(markup);
-    updateTotal();
+//     loadMoreBtn.enable()
+//     updateGallery(markup);
+//     updateTotal();
 
-    return markup;
-  } catch (error) {
-    onError(error);  
-  }
-}
+//     return markup;
+//   } catch (error) {
+//     onError(error);  
+//   }
+// }
 
-// Show count images
-//
-function viewCountImages() { 
-  const countImages = (newGallery.page - 1) * newGallery.perPage;
-  const totalImages = countImages > newGallery.total ? newGallery.total : countImages;
+// // Show count images
+// //
+// function viewCountImages() { 
+//   const countImages = (newGallery.page - 1) * newGallery.perPage;
+//   const totalImages = countImages > newGallery.total ? newGallery.total : countImages;
 
-  return `
-  <div class="counts">
-    <p>Add pages #${newGallery.page - 1}. Images: 1 - ${totalImages} / Total: ${ newGallery.total }
-  </div>`
-}
+//   return `
+//   <div class="counts">
+//     <p>Add pages #${newGallery.page - 1}. Images: 1 - ${totalImages} / Total: ${ newGallery.total }
+//   </div>`
+// }
