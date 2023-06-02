@@ -43,7 +43,7 @@ async function onMarkup() {
 // Шаблон картки для фільму
 //
 function createCardGallery( data ) {
-  const url = 'https://image.tmdb.org/t/p/w300'
+  const url = 'https://image.tmdb.org/t/p/w300';
   return `
     <div class="movie-card">
       <img class="image"
@@ -82,6 +82,8 @@ function updateGallery(data) {
     
   refs.out.insertAdjacentHTML("beforeend", data);
 }
+
+/// ================================
 
 // Класс + ключ
 const MovieDB = require('moviedb')('347a4b587b74ee2a22d09434547acda6');
