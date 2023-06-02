@@ -7,13 +7,17 @@ import Gallery from './Gallery.js';
 import Buttons from './Buttons.js';
 import simpleLightbox from "simplelightbox";
 
-
+// Класс + ключ
 const MovieDB = require('moviedb')('347a4b587b74ee2a22d09434547acda6');
 
-// MovieDB.searchMovie({ query: 'Alien' }, (err, res) => {
-//   console.log(res);
-// });
-  
+//'https://api.themoviedb.org/3/search/movie?query=Alien&include_adult=false&language=en-US&page=1&region=France&year=2022'
+// Пошук списку фільмів по назві
+MovieDB.searchMovie({ query: 'Alien' }, (err, res) => {
+  console.log('query: Alien');
+  console.log(res);
+});
+
+// Нові очікувані фільми
 MovieDB.miscUpcomingMovies({}, (err, res) => {
   console.log('UpcomingMovie');
   console.log(res);
@@ -24,20 +28,43 @@ MovieDB.miscLatestMovies({}, (err, res) => {
   console.log(res);
 });
 
+// список жанрів
 MovieDB.genreMovieList({}, (err, res) => {
   console.log('Genre');
   console.log(res);
 })
 
+// Фільми по конкретному жанру
 MovieDB.genreMovies({ id: 14 }, (err, res) => {
     console.log(`Movies for Genry.id:14`);  
     console.log(res);
 });
 
+
+//https://api.themoviedb.org/3/configuration/countries
+MovieDB.configurationCountries({ }, (err, res) => {
+    console.log(`Countries`);  
+    console.log(res);
+});
+
+//find
+MovieDB.find({ id: 840326 }, (err, res) => {
+  console.log('find');
+  console.log(res);
+});
+
+// інформація по фільму за id
 MovieDB.movieInfo({ id: 840326 }, (err, res) => {
   console.log(res.title, res.id);
   console.log(res);
 });
+
+// Трендові фільми: id = 'day' / 'week'
+MovieDB.trendingMovie({ id: 'day' }, (err, res) => {
+  console.log("trendingMovie");
+  console.log(res);
+});
+
 
 // MovieDB
 //   .searchMovie({ query: 'Zoolander' }, (err, res) => {
