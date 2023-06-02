@@ -10,8 +10,19 @@ import simpleLightbox from "simplelightbox";
 // Класс + ключ
 const MovieDB = require('moviedb')('347a4b587b74ee2a22d09434547acda6');
 
-//'https://api.themoviedb.org/3/search/movie?query=Alien&include_adult=false&language=en-US&page=1&region=France&year=2022'
+//'https://api.themoviedb.org/3/search/movie?
+//  query = Alien 
+//  & include_adult=false 
+//  & language=en - US 
+//  & page=1 
+//  & region=France 
+//  & year=2022'
 // Пошук списку фільмів по назві
+MovieDB.searchMovie({ query: 'Zoolander', page: 1 }, (err, res) => {
+  console.log('query: Zoolander');
+  console.log(res);
+});
+
 MovieDB.searchMovie({ query: 'Alien' }, (err, res) => {
   console.log('query: Alien');
   console.log(res);
@@ -35,7 +46,7 @@ MovieDB.genreMovieList({}, (err, res) => {
 })
 
 // Фільми по конкретному жанру
-MovieDB.genreMovies({ id: 14 }, (err, res) => {
+MovieDB.genreMovies({ id: 14, page: 5 }, (err, res) => {
     console.log(`Movies for Genry.id:14`);  
     console.log(res);
 });
@@ -47,11 +58,6 @@ MovieDB.configurationCountries({ }, (err, res) => {
     console.log(res);
 });
 
-//find
-MovieDB.find({ id: 840326 }, (err, res) => {
-  console.log('find');
-  console.log(res);
-});
 
 // інформація по фільму за id
 MovieDB.movieInfo({ id: 840326 }, (err, res) => {
