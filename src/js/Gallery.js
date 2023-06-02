@@ -7,23 +7,26 @@ const URL = 'https://api.themoviedb.org/3';
 
 export default class Gallery {
   constructor() {
+    this.url = "";
+    this.params = { 
+      api_key: API_KEY,
+      page: this.page,
+      query: "",
+    };
     this.page = 1;
     this.totalPage = 0;
     this.totalResults = 0;
   }
 
-  async getMovies(pathUrl, query) {
-    const params = {
-      api_key: API_KEY,
-      page: this.page,
-      query: query,
-    }
+  async getMovies(query, pathUrl) {
+    this.url = (!pathUrl) ? this.url : URL + pathUrl;
+    this.params.query = query;
 
-    const url = URL+pathUrl
-      //`${URL+pathUrl}?${params.query}&page=${params.page}&api_key=${API_KEY}`
-    const { data }  = await axios.get(url, { params });
+    const params = this.params;
+    const { data }  = await axios.get(this.url, { params });
 
     this.incrementPage();
+    
     this.totalPage = data.total_page;
     this.totalResult = data.total_result;
 

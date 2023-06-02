@@ -10,9 +10,14 @@ onMarkup();
 
 /// trending/movie/day
 //
+// cписок фільмів у тренді за день \ неділю
 async function getNewCards() {
   try {
-    const cards = await movies.getMovies('/trending/movie/day','language=en-US');
+    // day -https://api.themoviedb.org/3/trending/movie/day
+    // week - https://api.themoviedb.org/3/trending/movie/week
+    const url = '/trending/movie/day';
+    const query = 'language=en-US'
+    const cards = await movies.getMovies(query, url);
 
     return cards.reduce(
          (acc, data) => acc + createCardGallery(data), "");
@@ -35,6 +40,8 @@ async function onMarkup() {
   }
 }
 
+// Шаблон картки для фільму
+//
 function createCardGallery( data ) {
   const url = 'https://image.tmdb.org/t/p/w300'
   return `
