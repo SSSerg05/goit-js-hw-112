@@ -29,7 +29,7 @@ MovieDB.searchMovie({ query: 'Alien' }, (err, res) => {
 });
 
 // Нові очікувані фільми
-MovieDB.miscUpcomingMovies({}, (err, res) => {
+MovieDB.miscUpcomingMovies({page: 1}, (err, res) => {
   console.log('UpcomingMovie');
   console.log(res);
 });
