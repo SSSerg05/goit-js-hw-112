@@ -7,7 +7,7 @@ const refs = {
 }
 
 const movies = new Gallery();
-onMarkup();
+//onMarkup();
 
 /// trending/movie/day || week
 //
@@ -77,10 +77,9 @@ function createCardGallery( data ) {
 const genre = new GenreList({
   selector: ".select",
 });
-genre.getGenreList();
+//genre.getGenreList();
 genre.onMarkupGenreList();
-
-
+ 
 
 
 function onError(error) { 

@@ -9,11 +9,12 @@ const URL = 'https://api.themoviedb.org/3';
 export default class GenreList {
   constructor({selector}) {
     this.select = this.getSelect(selector);
+    this.genres = {}
 
     this.url = URL + '/genre/movie/list';
     this.params = { 
       api_key: API_KEY,
-      query: "",
+      query: "", ///'language=en',
     };
   }
 
@@ -23,21 +24,19 @@ export default class GenreList {
 
   // Отримати масив об'єктів cпискe жанрів
   async getGenreList() {
-    this.params.query = 'language=en'
-    const params = this.params;
-    const {data} = await axios.get(this.url, { params });
-    
-    console.log(data);
+    const params = new Object(this.params);
 
+    const {data} = await axios.get(this.url, { params });
+    this.genres = new Object(data.genres);
     return data.genres; 
   }
 
   // створити html-розмітку для всіх строк селекту
   async createGenreList() {
     try {
+
       //--url 'https://api.themoviedb.org/3/genre/movie/list?language=en'
       const data = await this.getGenreList();
-    
       return data.reduce(
            (acc, data) => acc + this.createGenreSelectRow(data), "");
     
@@ -51,9 +50,12 @@ export default class GenreList {
     return `<option value="${data.id}">${data.name}</option>`;
   }
 
-  async onMarkupGenreList() { 
+  // сформувати селект
+  async outMarkupGenreList() { 
     try {
       const markup = await this.createGenreList();
+
+      this.createGenreList(markup);
       this.update(markup);
   
       return markup;
@@ -62,14 +64,23 @@ export default class GenreList {
     }
   }
 
+  // записати дані у селект
   update(data) {
     if (!data) { 
       return
     }
       
-    this.selector.insertAdjacentHTML("beforeend", data);
+    this.select.insertAdjacentHTML("beforeend", data);
   }
 
+  findIdtoName(aGenre) {
+    let str = ""
+
+
+    return str
+  }
+
+  // якщо помилка
   onError(error){
     console.log(error);
   } 
