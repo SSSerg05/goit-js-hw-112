@@ -37,8 +37,6 @@ async function getNewCards() {
 async function onMarkup() { 
   try {
     const markup = await getNewCards();
-    console.log(markup);
-
     updateGallery(markup);
 
     return markup;

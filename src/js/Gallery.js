@@ -22,7 +22,6 @@ export default class Gallery {
     const url = URL+pathUrl
       //`${URL+pathUrl}?${params.query}&page=${params.page}&api_key=${API_KEY}`
     const { data }  = await axios.get(url, { params });
-    console.log(data);
 
     this.incrementPage();
     this.totalPage = data.total_page;
