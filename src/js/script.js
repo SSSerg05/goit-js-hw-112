@@ -7,6 +7,23 @@ import Gallery from './Gallery.js';
 import Buttons from './Buttons.js';
 import simpleLightbox from "simplelightbox";
 
+import { TmdbClient } from 'tmdb-js-wrapper/src/tmdb-js/tmdb-js';
+console.log(TmdbClient);
+
+doStuff = async function (authentication) {
+
+  let apiKey = authentication.apiKey;
+  let username = authentication.username;
+  let password = authentication.password;
+
+  let tmdb = new TmdbClient(apiKey);
+
+  // Get movie data example
+  let oceansElevenMovie = tmdb.getMovieSection().getMovie("161");
+  let oceansDetails = await oceansElevenMovie.getDetailsAsync();
+  let oceansImages = await oceansElevenMovie.getImagesAsync();
+  console.log("A great movie: " + oceansDetails.title);
+}
 //want, but no used
 //https://infinite-scroll.com/extras.html#module-loaders
 
