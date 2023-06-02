@@ -47,7 +47,7 @@ function createCardGallery( data ) {
 
       <div class="info">
         <p class="info-item">
-         <b>Title: </b>${data.vote_average}
+         <b>Title: </b>${data.original_title}
         </p>
         <p class="info-item">
           <b>Text: </b>${data.overview}
