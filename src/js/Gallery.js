@@ -1,34 +1,34 @@
 const axios = require("axios/dist/axios.min.js"); // node
 import Notiflix from 'notiflix';
 
-const URL = 'https://pixabay.com/api/';
-const API_KEY = '36214966-0d101d8d6f502ad642532aad3';
+// Класс + ключ
+const API_KEY = '347a4b587b74ee2a22d09434547acda6'
+const URL = 'https://api.themoviedb.org/3';
 
 export default class Gallery {
-  constructor (perPage = 40) {
+  constructor() {
     this.page = 1;
-    this.searchQuery = '';
-    this.perPage = perPage;
-    this.total = 0;
+    this.totalPage = 0;
+    this.totalResults = 0;
   }
 
-  async getPictures() {
-    
+  async getMovies(pathUrl, query) {
     const params = {
-      key: API_KEY,
-      q: this.searchQuery,
-      image_type: 'photo',
-      orientation: 'horizontal',
-      safesearch: true,
+      api_key: API_KEY,
       page: this.page,
-      per_page: this.perPage,
+      query: query,
     }
 
-    const { data } = await axios.get(URL, { params })
-    this.incrementPage();
-    this.total = data.totalHits;
+    const url = URL+pathUrl
+      //`${URL+pathUrl}?${params.query}&page=${params.page}&api_key=${API_KEY}`
+    const { data }  = await axios.get(url, { params });
+    console.log(data);
 
-    return data.hits;
+    this.incrementPage();
+    this.totalPage = data.total_page;
+    this.totalResult = data.total_result;
+
+    return data.results; 
   }
 
   incrementPage() {
@@ -37,7 +37,8 @@ export default class Gallery {
 
   resetPage() { 
     this.page = 1;
-    this.total = 0;
+    this.totalPage = 0;
+    this.totalResult = 0;
   }
 
 }
