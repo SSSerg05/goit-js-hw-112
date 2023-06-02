@@ -18,7 +18,8 @@ const refs = {
 const movies = new Gallery();
 onMarkup();
 
-
+/// trending/movie/day
+//
 async function getNewCards() {
   try {
     const cards = await movies.getMovies('/trending/movie/day','language=en-US');
