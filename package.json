@@ -1,0 +1,31 @@
+{
+  "name": "goit-js-hw-112",
+  "description": "js-2.0 test",
+  "version": "1.0.0",
+  "source": "src/*.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel src/*.html",
+    "dev": "parcel src/*.html",
+    "build": "parcel build src/*.html --public-url /goit-js-hw-112/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SSSerg05/goit-js-hw-112.git"
+  },
+  "author": "SSerg",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SSSerg05/goit-js-hw-112/issues"
+  },
+  "homepage": "https://github.com/SSSerg05/goit-js-hw-112",
+  "devDependencies": {
+    "buffer": "^5.7.1",
+    "parcel": "^2.8.3"
+  },
+  "dependencies": {
+    "axios": "^1.4.0",
+    "notiflix": "^3.2.6",
+    "simplelightbox": "^2.13.0"
+  }
+}
