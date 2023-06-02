@@ -7,23 +7,46 @@ import Gallery from './Gallery.js';
 import Buttons from './Buttons.js';
 import simpleLightbox from "simplelightbox";
 
-import { TmdbClient } from 'tmdb-js-wrapper/src/tmdb-js/tmdb-js';
-console.log(TmdbClient);
 
-doStuff = async function (authentication) {
+const MovieDB = require('moviedb')('347a4b587b74ee2a22d09434547acda6');
 
-  let apiKey = authentication.apiKey;
-  let username = authentication.username;
-  let password = authentication.password;
+// MovieDB.searchMovie({ query: 'Alien' }, (err, res) => {
+//   console.log(res);
+// });
 
-  let tmdb = new TmdbClient(apiKey);
+MovieDB.miscUpcomingMovies({}, (err, res) => {
+  console.log(res);
+});
 
-  // Get movie data example
-  let oceansElevenMovie = tmdb.getMovieSection().getMovie("161");
-  let oceansDetails = await oceansElevenMovie.getDetailsAsync();
-  let oceansImages = await oceansElevenMovie.getImagesAsync();
-  console.log("A great movie: " + oceansDetails.title);
-}
+MovieDB.searchCollection({id: 14}, (err, res) => {
+  console.log(res);
+});
+
+MovieDB.miscLatestMovies({}, (err, res) => {
+  console.log(res);
+});
+
+MovieDB.genreMovieList({},(err, res) => {
+  console.log(res);
+});
+
+// MovieDB.movieInfo({ id: 666}, (err, res) => {
+//   console.log(res);
+// });
+
+// MovieDB
+//   .searchMovie({ query: 'Zoolander' }, (err, res) => {
+//     console.log(res);
+//   })
+//   .movieInfo({ id: 123 }, (err, res) => {
+//     console.log(res);
+//   });
+
+// setting french as default language...
+//tmdb.setLanguage('uk');
+// and resetting to english.
+//tmdb.resetLanguage();
+
 //want, but no used
 //https://infinite-scroll.com/extras.html#module-loaders
 
