@@ -11,7 +11,7 @@ onMarkup();
 /// trending/movie/day
 //
 // cписок фільмів у тренді за день \ неділю
-async function getNewCards() {
+async function getNewCardsTrending() {
   try {
     // day -https://api.themoviedb.org/3/trending/movie/day
     // week - https://api.themoviedb.org/3/trending/movie/week
@@ -23,7 +23,7 @@ async function getNewCards() {
          (acc, data) => acc + createCardGallery(data), "");
 
   } catch (error) {
-    throw new Error(error);
+    onError(error);  
   }
 }
 
@@ -31,7 +31,7 @@ async function getNewCards() {
 //
 async function onMarkup() { 
   try {
-    const markup = await getNewCards();
+    const markup = await getNewCardsTrending();
     updateGallery(markup);
 
     return markup;
