@@ -7,18 +7,25 @@ const URL = 'https://api.themoviedb.org/3';
 
 export default class Gallery {
   constructor() {
+    this.page = 1;
+
     this.url = "";
     this.params = { 
       api_key: API_KEY,
       page: this.page,
       query: "",
     };
-    this.page = 1;
+
     this.totalPage = 0;
     this.totalResults = 0;
   }
 
-  async getMovies(query, pathUrl) {
+
+  // отримати список фільмів по запиту
+  // @string - query - строка те що буде після ? у гет-запиті за виключенням page та ключа
+  // @string - pathUrl - частина url після URL 
+  // https://api.themoviedb.org/3/trending/movie/day?api_key=999999&page=1&
+  async getMoviesList(query, pathUrl) {
     this.url = (!pathUrl) ? this.url : URL + pathUrl;
     this.params.query = query;
 
@@ -43,4 +50,5 @@ export default class Gallery {
     this.totalResult = 0;
   }
 
+  
 }
