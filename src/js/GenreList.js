@@ -7,14 +7,15 @@ const URL = 'https://api.themoviedb.org/3';
 
 // передаємо класс селектору куди будемо вставляти лист жанрів
 export default class GenreList {
-  constructor({selector}) {
+  constructor({selector, url, query}) {
     this.select = this.getSelect(selector);
-    this.genres = {}
+    this.genres = [];
+    this.t = [{id: 1, name: 'tt'}, {id: 14, name: 'rrtt'}]
 
-    this.url = URL + '/genre/movie/list';
+    this.url = URL + url;
     this.params = { 
       api_key: API_KEY,
-      query: "", ///'language=en',
+      query: query, ///'language=en',
     };
   }
 
@@ -27,7 +28,13 @@ export default class GenreList {
     const params = new Object(this.params);
 
     const {data} = await axios.get(this.url, { params });
-    this.genres = new Object(data.genres);
+
+    if (this.genres.length === 0) {
+      data.genres.forEach(e => this.genres.push(e))
+    }
+    
+    // console.log('genres',this.genres);
+
     return data.genres; 
   }
 
@@ -37,8 +44,11 @@ export default class GenreList {
 
       //--url 'https://api.themoviedb.org/3/genre/movie/list?language=en'
       const data = await this.getGenreList();
+     
       return data.reduce(
-           (acc, data) => acc + this.createGenreSelectRow(data), "");
+           (acc, data) => {
+            return acc + this.createGenreSelectRow(data)
+          }, "");
     
     } catch (error) {
       this.onError(error);  
@@ -54,8 +64,6 @@ export default class GenreList {
   async outMarkupGenreList() { 
     try {
       const markup = await this.createGenreList();
-
-      this.createGenreList(markup);
       this.update(markup);
   
       return markup;
@@ -73,12 +81,29 @@ export default class GenreList {
     this.select.insertAdjacentHTML("beforeend", data);
   }
 
-  findIdtoName(aGenre) {
-    let str = ""
+  //  findIdtoName(aGenre, genreList) {
+  //   console.log(this.genres);
+  //   this.genres.forEach(item => console.log(item));
+  //   this.t.forEach(item => console.log(item));
 
+  //   const result = aGenre.map(item => {
+  //     console.log('aGenry',item);
+  //     console.log('this.genres',this.genres);
 
-    return str
-  }
+  //     const obj = this.genres.find(el => el.id === item);
+  //     console.log(obj);
+  //     return obj ? obj.name : null;
+  //   })
+
+    // const result = await aGenre.filter(item =>
+    //   this.genres.find(element => {
+    //     if (element.id === item){
+    //       return element.name
+    //     }
+    //   }))
+
+  //   return result;
+  // }
 
   // якщо помилка
   onError(error){

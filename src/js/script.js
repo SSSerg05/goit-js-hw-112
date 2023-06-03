@@ -76,11 +76,33 @@ function createCardGallery( data ) {
 
 const genre = new GenreList({
   selector: ".select",
+  url: "/genre/movie/list",
+  query: 'language=en'
 });
-//genre.getGenreList();
-genre.onMarkupGenreList();
- 
 
+genre.outMarkupGenreList();
+console.log( findIdtoName([14,28,12], genre.genres) );
+
+
+
+function findIdtoName(aGenre, genreList) {
+  console.log(genreList);
+  genreList.forEach(item => console.log('genreList',item));
+
+
+  const result = aGenre.map(item => {
+    // console.log('aGenry',item);
+    // console.log('genreList',genreList);
+    const obj = genreList.find(el => {
+      console.log(el);
+      return el.id === item
+    });
+
+    console.log(obj);
+    return obj ? obj.name : null;
+  })
+  return result
+}
 
 function onError(error) { 
   console.log(error);
