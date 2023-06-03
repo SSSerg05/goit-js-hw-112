@@ -32,11 +32,11 @@ async function getNewCardsTrending() {
 //
 async function onMarkup() { 
   try {
+
     const markup = await getNewCardsTrending();
     updateGallery(markup);
-    console.log(genre);
-
     return markup;
+
   } catch (error) {
     onError(error);  
   }
@@ -81,28 +81,26 @@ const genre = new GenreList({
 });
 
 genre.outMarkupGenreList();
-console.log( findIdtoName([14,28,12], genre.genres) );
 
 
-
-function findIdtoName(aGenre, genreList) {
-  console.log(genreList);
-  genreList.forEach(item => console.log('genreList',item));
-
-
-  const result = aGenre.map(item => {
-    // console.log('aGenry',item);
-    // console.log('genreList',genreList);
-    const obj = genreList.find(el => {
-      console.log(el);
-      return el.id === item
-    });
-
-    console.log(obj);
-    return obj ? obj.name : null;
-  })
-  return result
+const t = async() => {
+  let result = await genre.getList();
+  return result;
 }
+
+// преоразовати усі категорії які є у фільмі з id на назву
+async function genresIdToName() {
+  try {
+    const list = await genre.convertId_to_Name([14,28,12]);
+    console.log(list);
+    return list;
+  } catch (error) {
+    onError(error)
+  }
+
+}
+genresIdToName()
+
 
 function onError(error) { 
   console.log(error);

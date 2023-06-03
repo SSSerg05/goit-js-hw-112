@@ -10,7 +10,6 @@ export default class GenreList {
   constructor({selector, url, query}) {
     this.select = this.getSelect(selector);
     this.genres = [];
-    this.t = [{id: 1, name: 'tt'}, {id: 14, name: 'rrtt'}]
 
     this.url = URL + url;
     this.params = { 
@@ -25,18 +24,24 @@ export default class GenreList {
 
   // Отримати масив об'єктів cпискe жанрів
   async getGenreList() {
-    const params = new Object(this.params);
+    try {
+      const params = new Object(this.params);
 
-    const {data} = await axios.get(this.url, { params });
+      const {data} = await axios.get(this.url, { params });
+      this.genres = this.addGenres(data.genres)
 
-    if (this.genres.length === 0) {
-      data.genres.forEach(e => this.genres.push(e))
+      return data.genres; 
+    } catch (error) {
+      this.onError(error);
     }
-    
-    // console.log('genres',this.genres);
-
-    return data.genres; 
   }
+
+  addGenres(data) {
+    const result = data.map(e => e)
+
+    return result    
+  }
+
 
   // створити html-розмітку для всіх строк селекту
   async createGenreList() {
@@ -81,29 +86,31 @@ export default class GenreList {
     this.select.insertAdjacentHTML("beforeend", data);
   }
 
-  //  findIdtoName(aGenre, genreList) {
-  //   console.log(this.genres);
-  //   this.genres.forEach(item => console.log(item));
-  //   this.t.forEach(item => console.log(item));
+  // отримати список жанрів
+  async getList() {
+    try {
+      const list = await this.getGenreList();
+      return list;      
+    } catch (error) {
+     this.onError(error); 
+    }
+  }
 
-  //   const result = aGenre.map(item => {
-  //     console.log('aGenry',item);
-  //     console.log('this.genres',this.genres);
+  // преоразовати усі категорії які є у фільмі з id на назву
+  async convertId_to_Name(aGenre) {
+    try {
+      const list = await this.getList()
 
-  //     const obj = this.genres.find(el => el.id === item);
-  //     console.log(obj);
-  //     return obj ? obj.name : null;
-  //   })
+      const result = aGenre.map(item => {
+        const obj = list.find(el => el.id === item);
+        return obj ? obj.name : null;
+      })
 
-    // const result = await aGenre.filter(item =>
-    //   this.genres.find(element => {
-    //     if (element.id === item){
-    //       return element.name
-    //     }
-    //   }))
-
-  //   return result;
-  // }
+      return result;
+    } catch (error) {
+      this.onError(error)
+    }
+  }
 
   // якщо помилка
   onError(error){
