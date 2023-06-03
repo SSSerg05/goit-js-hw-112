@@ -14,7 +14,7 @@ const moviesTrendsDay = new Gallery({
   query: 'language=en'          // сам запит, те що стоъть після знаку ?
 });
 
-movies.onMarkup();
+moviesTrendsDay.onMarkup();
 
 
 
