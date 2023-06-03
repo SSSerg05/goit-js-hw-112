@@ -6,10 +6,12 @@ const refs = {
   out: document.querySelector(".gallery"),
 }
 
-const movies = new Gallery({
-  selector: ".gallery",
-  url: '/trending/movie/day',
-  query: 'language=en'
+
+// екземпляр класа до відображення трендових фільмів на день
+const moviesTrendsDay = new Gallery({
+  selector: ".gallery",         // куди виводимо сформований HTML-код 
+  url: '/trending/movie/day',   // частина шляху для запиту
+  query: 'language=en'          // сам запит, те що стоъть після знаку ?
 });
 
 movies.onMarkup();
@@ -18,43 +20,19 @@ movies.onMarkup();
 
 //=========================
 //
-
 const genre = new GenreList({
-  selector: ".select",
-  url: "/genre/movie/list",
-  query: 'language=en'
+  selector: ".select",      // куди виводимо сформований HTML-код 
+  url: "/genre/movie/list", // частина шляху для запиту
+  query: 'language=en'      // сам запит, те що стоъть після знаку ?
 });
 
 genre.outMarkupGenreList();
 
 
-const t = async() => {
-  let result = await genre.getList();
-  return result;
-}
-
-// преоразовати усі категорії які є у фільмі з id на назву
-async function genresIdToName() {
-  try {
-    const list = await genre.convertId_to_Name([14,28,12]);
-    console.log(list);
-    return list;
-  } catch (error) {
-    onError(error)
-  }
-
-}
-genresIdToName()
-
-
-function onError(error) { 
-  console.log(error);
-}
-
-
 
 /// ================================
-
+// Використання сторонньої бібліотекі
+// 
 // // Класс + ключ
 // const MovieDB = require('moviedb')('347a4b587b74ee2a22d09434547acda6');
 
