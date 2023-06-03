@@ -1,9 +1,16 @@
 const axios = require("axios/dist/axios.min.js"); // node
+import GenreList from './GenreList.js';
 import Notiflix from 'notiflix';
 
 // Класс + ключ
 const API_KEY = '347a4b587b74ee2a22d09434547acda6'
 const URL = 'https://api.themoviedb.org/3';
+
+const genres = GenreList({
+  selector: ".select",
+  url: "/genre/movie/list",
+  query: 'language=en'
+})
 
 export default class Gallery {
   constructor({url, query, selector}) {
@@ -128,6 +135,9 @@ export default class Gallery {
           <b>Release Date: </b>${data.release_date}
         </p>
         <p class="info-item">
+        <b>Genres: </b>${genres.convertId_to_Name(data.genres)}
+        </p>
+        <p class="info-item">
           <b>Vote: </b>${data.vote_average}
         </p>
       </div>
@@ -138,7 +148,7 @@ export default class Gallery {
   // //
   updateGallery(data) {
     if (!data || !this.out) { 
-      throw new Error("No value or wrtong selector");
+      throw new Error("No value or wrong selector");
       return;
     }
 

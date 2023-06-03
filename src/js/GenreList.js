@@ -79,8 +79,9 @@ export default class GenreList {
 
   // записати дані у селект
   update(data) {
-    if (!data) { 
-      return
+    if (!data || !this.out) { 
+      throw new Error("No value or wrong selector");
+      return;
     }
       
     this.out.insertAdjacentHTML("beforeend", data);
