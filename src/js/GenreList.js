@@ -9,7 +9,7 @@ const URL = 'https://api.themoviedb.org/3';
 export default class GenreList {
   constructor({selector, url, query}) {
     this.out = this.getSelect(selector);
-    this.genres = [];
+    this.genres = this.importFromLS();
 
     this.url = URL + url;
     this.params = { 
@@ -28,7 +28,11 @@ export default class GenreList {
       const params = new Object(this.params);
 
       const {data} = await axios.get(this.url, { params });
-      this.genres = this.addGenres(data.genres)
+      //this.genres = this.addGenres(data.genres)
+      this.exportToLS(data.genres);
+      if (!this.genres) {
+        this.genres = this.importFromLS()
+      }
 
       return data.genres; 
     } catch (error) {
@@ -36,10 +40,18 @@ export default class GenreList {
     }
   }
 
-  addGenres(data) {
-    const result = data.map(e => e)
+  // addGenres(data) {
+  //   const result = data.map(e => e)
 
-    return result    
+  //   return result    
+  // }
+
+  exportToLS(data) {
+    localStorage.genreList = JSON.stringify(data);
+  }
+
+  importFromLS() {
+    return JSON.parse( localStorage.genreList );
   }
 
 
@@ -98,9 +110,9 @@ export default class GenreList {
   }
 
   // преоразовати усі категорії які є у фільмі з id на назву
-  async convertId_to_Name(aGenre) {
+  async convertId_to_Name(aGenre, list = this.genres) {
     try {
-      const list = await this.getList()
+      // const list = this.genres;
 
       const result = aGenre.map(item => {
         const obj = list.find(el => el.id === item);

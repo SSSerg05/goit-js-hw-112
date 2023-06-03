@@ -6,11 +6,12 @@ import Notiflix from 'notiflix';
 const API_KEY = '347a4b587b74ee2a22d09434547acda6'
 const URL = 'https://api.themoviedb.org/3';
 
-const genres = GenreList({
+const genres = new GenreList({
   selector: ".select",
   url: "/genre/movie/list",
   query: 'language=en'
 })
+genres.getGenreList();
 
 export default class Gallery {
   constructor({url, query, selector}) {
@@ -116,6 +117,8 @@ export default class Gallery {
   createCardGallery( data ) {
   // частина посилання на картинку
   const url = 'https://image.tmdb.org/t/p/w300';
+  const genreList = genres.importFromLS();
+
   return `
     <div class="movie-card">
       <img class="image"
@@ -135,7 +138,7 @@ export default class Gallery {
           <b>Release Date: </b>${data.release_date}
         </p>
         <p class="info-item">
-        <b>Genres: </b>${genres.convertId_to_Name(data.genres)}
+        <b>Genres: </b>${this.convertId_to_Name(data.genre_ids, genreList)  }
         </p>
         <p class="info-item">
           <b>Vote: </b>${data.vote_average}
@@ -144,8 +147,16 @@ export default class Gallery {
     </div>`
   }
 
-  // // update out
-  // //
+  convertId_to_Name(aGenre, list) {
+
+      const result = aGenre.map(item => {
+        const obj = list.find(el => el.id === item);
+        return obj ? obj.name : null;
+      })
+
+      return result.join(', ');
+  }
+
   updateGallery(data) {
     if (!data || !this.out) { 
       throw new Error("No value or wrong selector");
