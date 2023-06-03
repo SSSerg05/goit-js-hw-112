@@ -8,7 +8,7 @@ const URL = 'https://api.themoviedb.org/3';
 // передаємо класс селектору куди будемо вставляти лист жанрів
 export default class GenreList {
   constructor({selector, url, query}) {
-    this.select = this.getSelect(selector);
+    this.out = this.getSelect(selector);
     this.genres = [];
 
     this.url = URL + url;
@@ -83,7 +83,7 @@ export default class GenreList {
       return
     }
       
-    this.select.insertAdjacentHTML("beforeend", data);
+    this.out.insertAdjacentHTML("beforeend", data);
   }
 
   // отримати список жанрів

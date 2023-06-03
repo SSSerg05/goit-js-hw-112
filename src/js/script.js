@@ -6,70 +6,15 @@ const refs = {
   out: document.querySelector(".gallery"),
 }
 
-const movies = new Gallery();
-//onMarkup();
+const movies = new Gallery({
+  selector: ".gallery",
+  url: '/trending/movie/day',
+  query: 'language=en'
+});
 
-/// trending/movie/day || week
-//
-// cписок фільмів у тренді за день \ неділю
-async function getNewCardsTrending() {
-  try {
-    // day -https://api.themoviedb.org/3/trending/movie/day
-    // week - https://api.themoviedb.org/3/trending/movie/week
-    const url = '/trending/movie/day';
-    const query = 'language=en-US'
-    const cards = await movies.getMoviesList(query, url);
+movies.onMarkup();
 
-    return cards.reduce(
-         (acc, data) => acc + createCardGallery(data), "");
 
-  } catch (error) {
-    onError(error);  
-  }
-}
-
-// View Next card gallery
-//
-async function onMarkup() { 
-  try {
-
-    const markup = await getNewCardsTrending();
-    updateGallery(markup);
-    return markup;
-
-  } catch (error) {
-    onError(error);  
-  }
-}
-
-// Шаблон картки для фільму
-//
-function createCardGallery( data ) {
-  const url = 'https://image.tmdb.org/t/p/w300';
-  return `
-    <div class="movie-card">
-      <img class="image"
-        src="${url + data.backdrop_path}" 
-        alt="{${data.original_title}}" 
-        loading="lazy"
-        title="{${data.original_title}}"/>
-
-      <div class="info">
-        <p class="info-item">
-         <b>Title: </b>${data.original_title}
-        </p>
-        <p class="info-item">
-          <b>Text: </b>${data.overview}
-        </p>
-        <p class="info-item">
-          <b>Release Date: </b>${data.release_date}
-        </p>
-        <p class="info-item">
-          <b>Vote: </b>${data.vote_average}
-        </p>
-      </div>
-    </div>`
-}
 
 //=========================
 //
@@ -106,15 +51,7 @@ function onError(error) {
   console.log(error);
 }
 
-// // update out
-// //
-function updateGallery(data) {
-  if (!data) { 
-    return
-  }
-    
-  refs.out.insertAdjacentHTML("beforeend", data);
-}
+
 
 /// ================================
 
