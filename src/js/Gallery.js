@@ -272,7 +272,7 @@ export default class Gallery {
 
       const data = await this.getFilmDetails(idFilm);
       const markup = cbMarkup(data);
-      console.log(markup);
+    //  console.log(markup);
       this.updateFilmDetails(markup, selector);
       
       disableSpinner();
